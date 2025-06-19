@@ -6,6 +6,16 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      less: {
+        additionalData: `
+          @import "@/styles/variables.less";
+          @import "@/styles/mixins.less";
+        `
+      }
+    }
+  },
   plugins: [
     vue(),
     vueDevTools(),
