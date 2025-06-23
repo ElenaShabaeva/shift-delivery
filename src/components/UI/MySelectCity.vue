@@ -5,7 +5,7 @@
             :class="{ 'select__top--active': isShowOptions }"
             @click="showOptions"
         >
-            <div class="select__icon">
+            <div class="select__icon" v-if="this.$slots.default">
                 <slot></slot>
             </div>
             
