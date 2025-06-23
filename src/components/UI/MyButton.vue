@@ -1,5 +1,5 @@
 <template>
-    <button class="button" :class="buttonClasses">
+    <button class="button button-text" :class="buttonClasses">
         <slot></slot>
     </button>
 </template>
@@ -44,10 +44,6 @@ export default {
     background-color: transparent;
     outline: none;
     text-decoration: none;
-    font-family: @font1;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 1.5;
     text-align: center;
     transition: all 0.3s;
     overflow: hidden;

@@ -1,5 +1,5 @@
 <template>
-    <input type="text" class="input" />
+    <input type="text" class="input paragraph-16-regular" />
 </template>
 
 <script>
@@ -25,6 +25,7 @@ export default {
     }
 
     &:focus {
+        border-color: @border-medium;
         &::placeholder {
             color: transparent;
         }

@@ -9,7 +9,7 @@
                 <slot></slot>
             </div>
             
-            <span class="select__selected-option">{{ selectedOption || 'Не выбран' }}</span>
+            <span class="select__selected-option paragraph-16-regular">{{ selectedOption || 'Не выбран' }}</span>
 
             <div class="select__icon" :class="{ 'select__icon--rotate': isShowOptions }">
                 <SvgArrow />
@@ -17,14 +17,14 @@
         </div>
         
         <TransitionGroup name="options">
-            <div class="select__options" v-if="isShowOptions">
+            <div class="select__options" v-if="isShowOptions && options.length > 0">
             <div
                 class="select__option"
                 v-for="option in options"
                 :key="option.id"
                 @click="selectOption(option)"
             >
-                <div>{{ option.title }}</div>
+                <div class="paragraph-16-regular">{{ option.title }}</div>
             </div>
         </div>
         </TransitionGroup>
