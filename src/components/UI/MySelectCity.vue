@@ -80,7 +80,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .select {
     max-width: 320px;
     width: 100%;

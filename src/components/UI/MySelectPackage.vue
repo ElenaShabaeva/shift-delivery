@@ -24,9 +24,9 @@
                     :key="pack.id"
                     @click="selectOption(pack)"
                 >
-                    <div class="select__option-icon"></div>
+                    <img class="select__option-icon" :src="pack.icon_url" alt="">
                     <div class="select__option-description">
-                        <div class="h3">{{ pack.title }}</div>
+                        <div class="h3">{{ pack.name }}</div>
                         <div class="paragraph-12-regular">{{ pack.length }}х{{ pack.width }}х{{ pack.height }} см</div>
                     </div>
                     
@@ -46,7 +46,7 @@ export default {
             default: null,
         },
         packages: {
-            type: Array,
+            type: Object,
             required: true,
         },
     },
@@ -62,7 +62,7 @@ export default {
             this.isShowOptions = !this.isShowOptions
         },
         selectOption(option) {
-            this.selectedOption = option.title
+            this.selectedOption = option.name
             this.$emit('update:modelValue', option.id)
             this.isShowOptions = false
         },
@@ -138,23 +138,6 @@ export default {
         padding: 8px;
         background-color: @white;
         border-radius: 12px;
-        max-height: 235px;
-        overflow-y: auto;
-        scroll-behavior: smooth;
-
-        &::-webkit-scrollbar {
-            width: 3px;
-            height: 10px;
-        }
-
-        &::-webkit-scrollbar-track {
-            margin: 24px 0;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background: @border-light;
-            border-radius: 6px;
-        }
     }
 
     &__option {
@@ -177,7 +160,6 @@ export default {
     &__option-icon{
         width: 48px;
         height: 48px;
-        background-color: gray;
     }
 
     &__option-description{
