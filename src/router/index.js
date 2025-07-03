@@ -1,8 +1,40 @@
+import store from '@/store'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [],
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes: [
+        {
+            path: '/login',
+            name: 'login',
+            component: () => import('@/pages/AuthPage.vue'),
+            meta: { requiresAuth: false },
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: () => import('@/pages/RegistPage.vue'),
+            meta: { requiresAuth: false },
+        },
+        {
+            path: '/main',
+            name: 'main',
+            component: () => import('@/pages/MainPage.vue'),
+            meta: { requiresAuth: true },
+        },
+    ],
+})
+
+router.beforeEach((to, from, next) => {
+    const isLoggedIn = store.getters['auth/isLoggedIn']
+
+    if (!isLoggedIn && to.name !== 'login' && to.name !== 'register') {
+        next({ name: 'login', query: { redirect: to.fullPath } })
+    } else if (isLoggedIn && (to.name === 'login' || to.name === 'register')) {
+        next({ name: 'main' })
+    } else {
+        next()
+    }
 })
 
 export default router

@@ -1,0 +1,88 @@
+import authService from '@/services/auth.service'
+
+const user = JSON.parse(localStorage.getItem('user'))
+const token = localStorage.getItem('token')
+
+const initialState =
+    user && token
+        ? { status: { loggedIn: true }, user, token }
+        : { status: { loggedIn: false }, user: null, token: null }
+
+export const auth = {
+    namespaced: true,
+    state: initialState,
+    actions: {
+        login({ commit }, credentials) {
+            return authService.login(credentials).then(
+                (data) => {
+                    commit('loginSuccess', data)
+                    return Promise.resolve(data)
+                },
+                (error) => {
+                    commit('loginFailure')
+                    return Promise.reject(error)
+                },
+            )
+        },
+        logout({ commit }) {
+            authService.logout()
+            commit('logout')
+        },
+        register({ commit }, user) {
+            return authService.register(user).then(
+                (response) => {
+                    commit('registerSuccess')
+                    return Promise.resolve(response.data)
+                },
+                (error) => {
+                    commit('registerFailure')
+                    return Promise.reject(error)
+                },
+            )
+        },
+        refreshToken({ commit }) {
+            return authService.refreshToken().then(
+                (data) => {
+                    commit('refreshTokenSuccess', data.accessToken)
+                    return Promise.resolve(data.accessToken)
+                },
+                (error) => {
+                    commit('logout')
+                    return Promise.reject(error)
+                },
+            )
+        },
+    },
+    mutations: {
+        loginSuccess(state, data) {
+            state.status.loggedIn = true
+            state.user = data.user
+            state.token = data.accessToken
+        },
+        loginFailure(state) {
+            state.status.loggedIn = false
+            state.user = null
+            state.token = null
+        },
+        logout(state) {
+            state.status.loggedIn = false
+            state.user = null
+            state.token = null
+        },
+        registerSuccess(state) {
+            state.status.loggedIn = false
+        },
+        registerFailure(state) {
+            state.status.loggedIn = false
+        },
+        refreshTokenSuccess(state, token) {
+            state.token = token
+            state.status.loggedIn = true
+        },
+    },
+    getters: {
+        isLoggedIn: (state) => state.status.loggedIn,
+        getToken: (state) => state.token,
+        getUser: (state) => state.user,
+    },
+}
