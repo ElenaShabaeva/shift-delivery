@@ -29,7 +29,7 @@ export default {
     components: { SvgLogo },
     props: {
         navLinks: {
-            type: Array,
+            type: Object,
             required: true,
         },
     },
@@ -45,6 +45,10 @@ export default {
     z-index: 100;
     background-color: @white;
     padding-block: 24px;
+
+    // &__container{
+    //     padding-inline: 240px;
+    // }
 
     &__nav {
         display: flex;
