@@ -5,11 +5,13 @@
             :class="{ 'select__top--active': isShowOptions }"
             @click="showOptions"
         >
-            <div class="select__icon" v-if="this.$slots.default">
-                <slot></slot>
+            <div class="select__label">
+                <div class="select__icon" v-if="this.$slots.default">
+                    <slot></slot>
+                </div>
+                
+                <span class="select__selected-option paragraph-16-regular">{{ selectedOption || 'Не выбран' }}</span>
             </div>
-
-            <span class="select__selected-option paragraph-16-regular">{{ selectedOption || 'Не выбран' }}</span>
 
             <div class="select__icon" :class="{ 'select__icon--rotate': isShowOptions }">
                 <SvgArrow />
@@ -87,7 +89,7 @@ export default {
 
 <style lang="less">
 .select {
-    max-width: 320px;
+    // max-width: 320px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -104,17 +106,23 @@ export default {
         user-select: none;
         cursor: pointer;
         background-color: @white;
-        border: 1px solid @white;
+        border: 1px solid @border-light;
 
         &:hover {
             @media (hover: hover) {
-                border-color: @border-light;
+                border-color: @border-medium;
             }
         }
 
         &--active {
-            border-color: @border-light;
+            border-color: @border-medium;
         }
+    }
+
+    &__label{
+        display: flex;
+        gap: 8px;
+        align-items: center;
     }
 
     &__selected-option {
