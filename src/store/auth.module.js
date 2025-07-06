@@ -1,6 +1,18 @@
 import authService from '@/services/auth.service'
 
-const user = JSON.parse(localStorage.getItem('user'))
+const userStr = localStorage.getItem('user');
+
+let user = null;
+
+try {
+  if (userStr && userStr !== 'undefined') {
+    user = JSON.parse(userStr);
+  }
+} catch (e) {
+  console.error('Ошибка парсинга user из localStorage', e);
+  user = null;
+}
+
 const token = localStorage.getItem('token')
 
 const initialState =

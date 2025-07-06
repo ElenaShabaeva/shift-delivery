@@ -16,5 +16,5 @@ store
     .dispatch('auth/refreshToken')
     .catch(() => store.dispatch('auth/logout'))
     .finally(() => {
-        app.use(router).use(store).mount('#app')
+        app.use(store).use(router).mount('#app')
     })
