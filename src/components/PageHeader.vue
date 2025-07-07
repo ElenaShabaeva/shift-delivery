@@ -18,19 +18,38 @@
                     <component :is="link.icon" class="page-header__link-icon"></component>
                     {{ link.title }}
                 </router-link>
+                <router-link
+                    class="page-header__link paragraph-16-regular"
+                    to="/login"
+                    @click="handleLogout"
+                >
+                    <SvgExit class="page-header__link-icon" />
+                    Выйти
+                </router-link>
             </nav>
         </div>
     </header>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
+import SvgExit from '@/assets/svg/SvgExit.vue'
 import SvgLogo from '@/assets/svg/SvgLogo.vue'
+
 export default {
-    components: { SvgLogo },
+    components: { SvgLogo, SvgExit },
     props: {
         navLinks: {
-            type: Object,
+            type: Array,
             required: true,
+        },
+    },
+    methods: {
+        ...mapActions('auth', ['logout']),
+        handleLogout() {
+            this.logout()
+            this.$router.push('/login')
         },
     },
 }
