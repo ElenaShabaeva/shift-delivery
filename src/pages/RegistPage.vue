@@ -44,6 +44,9 @@ export default {
         handleRegister() {
             this.$store
                 .dispatch('auth/register', this.authForm)
+                .then(() => {
+                    this.$router.push('/')
+                })
         },
     },
 }

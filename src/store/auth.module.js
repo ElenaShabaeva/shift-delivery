@@ -20,6 +20,7 @@ const initialState =
         ? { status: { loggedIn: true }, user, token }
         : { status: { loggedIn: false }, user: null, token: null }
 
+
 export const auth = {
     namespaced: true,
     state: initialState,
@@ -42,9 +43,9 @@ export const auth = {
         },
         register({ commit }, user) {
             return authService.register(user).then(
-                (response) => {
-                    commit('registerSuccess')
-                    return Promise.resolve(response.data)
+                (data) => {
+                    commit('registerSuccess', data)
+                    return Promise.resolve(data)
                 },
                 (error) => {
                     commit('registerFailure')
@@ -55,8 +56,8 @@ export const auth = {
         refreshToken({ commit }) {
             return authService.refreshToken().then(
                 (data) => {
-                    commit('refreshTokenSuccess', data.accessToken)
-                    return Promise.resolve(data.accessToken)
+                    commit('refreshTokenSuccess', data.token_info.token)
+                    return Promise.resolve(data.token_info.token)
                 },
                 (error) => {
                     commit('logout')
@@ -69,7 +70,7 @@ export const auth = {
         loginSuccess(state, data) {
             state.status.loggedIn = true
             state.user = data.user
-            state.token = data.accessToken
+            state.token = data.token_info.token
         },
         loginFailure(state) {
             state.status.loggedIn = false
@@ -81,11 +82,15 @@ export const auth = {
             state.user = null
             state.token = null
         },
-        registerSuccess(state) {
-            state.status.loggedIn = false
+        registerSuccess(state, data) {
+            state.status.loggedIn = true
+            state.user = data.user
+            state.token = data.token_info.token
         },
         registerFailure(state) {
             state.status.loggedIn = false
+            state.user = null
+            state.token = null
         },
         refreshTokenSuccess(state, token) {
             state.token = token

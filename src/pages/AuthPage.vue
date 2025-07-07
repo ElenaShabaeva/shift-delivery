@@ -45,7 +45,7 @@ export default {
             this.$store
                 .dispatch('auth/login', this.authForm)
                 .then(() => {
-                    this.$router.push('/main')
+                    this.$router.push('/')
                 })
         },
     },
