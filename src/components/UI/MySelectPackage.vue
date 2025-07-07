@@ -9,8 +9,10 @@
                 <div class="select__icon" v-if="this.$slots.default">
                     <slot></slot>
                 </div>
-                
-                <span class="select__selected-option paragraph-16-regular">{{ selectedOption || 'Не выбран' }}</span>
+
+                <span class="select__selected-option paragraph-16-regular">{{
+                    selectedOption || 'Не выбран'
+                }}</span>
             </div>
 
             <div class="select__icon" :class="{ 'select__icon--rotate': isShowOptions }">
@@ -19,19 +21,20 @@
         </div>
 
         <TransitionGroup name="options">
-            <div class="select__options" v-if="isShowOptions">
+            <div class="select__options" v-if="isShowOptions && packages.length > 0">
                 <div
                     class="select__option"
                     v-for="pack in packages"
                     :key="pack.id"
                     @click="selectOption(pack)"
                 >
-                    <img class="select__option-icon" :src="pack.icon_url" alt="">
+                    <img class="select__option-icon" :src="pack.icon_url" alt="" />
                     <div class="select__option-description">
                         <div class="h3">{{ pack.name }}</div>
-                        <div class="paragraph-12-regular">{{ pack.length }}х{{ pack.width }}х{{ pack.height }} см</div>
+                        <div class="paragraph-12-regular">
+                            {{ pack.length }}х{{ pack.width }}х{{ pack.height }} см
+                        </div>
                     </div>
-                    
                 </div>
             </div>
         </TransitionGroup>
@@ -87,13 +90,14 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .select {
     // max-width: 320px;
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    position: relative;
 
     &__top {
         display: flex;
@@ -119,7 +123,7 @@ export default {
         }
     }
 
-    &__label{
+    &__label {
         display: flex;
         gap: 8px;
         align-items: center;
@@ -140,11 +144,18 @@ export default {
     }
 
     &__options {
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: calc(100% + 8px);
+        z-index: 10;
         display: flex;
         flex-direction: column;
         gap: 4px;
         padding: 8px;
         background-color: @white;
+        border: 1px solid @border-light;
         border-radius: 12px;
     }
 
@@ -165,12 +176,12 @@ export default {
         }
     }
 
-    &__option-icon{
+    &__option-icon {
         width: 48px;
         height: 48px;
     }
 
-    &__option-description{
+    &__option-description {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
