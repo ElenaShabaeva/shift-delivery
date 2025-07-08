@@ -1,6 +1,6 @@
 <template>
     <header class="page-header">
-        <div class="page-header__container container">
+        <div class="page-header__container">
             <nav class="page-header__nav">
                 <router-link class="page-header__logo" to="/">
                     <div class="page-header__logo-icon">
@@ -65,9 +65,11 @@ export default {
     background-color: @white;
     padding-block: 24px;
 
-    // &__container{
-    //     padding-inline: 240px;
-    // }
+    &__container {
+        margin: 0 auto;
+        max-width: 960px;
+        width: 100%;
+    }
 
     &__nav {
         display: flex;
