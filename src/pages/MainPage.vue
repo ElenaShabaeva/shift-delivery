@@ -1,6 +1,6 @@
 <template>
     <div class="calc">
-        <div class="calc__container container">
+        <div class="calc__container">
             <div class="calc__hero">
                 <div class="calc__title">
                     <h1 class="h1">Мы доставим ваш заказ</h1>
@@ -68,7 +68,7 @@ import SvgPlan from '@/assets/svg/SvgPlan.vue'
 import SvgQr from '@/assets/svg/SvgQr.vue'
 
 export default {
-    components: { SvgPin, SvgPack, SvgPlan, SvgLogo, SvgQr, },
+    components: { SvgPin, SvgPack, SvgPlan, SvgLogo, SvgQr },
     data() {
         return {
             idSendingCity: '',
@@ -110,7 +110,10 @@ export default {
 <style lang="less">
 .calc {
     &__container {
-        padding-block: 113px;
+        margin: 0 auto;
+        max-width: 960px;
+        width: 100%;
+        padding-top: 113px;
         display: grid;
         grid-template-columns: 380px 500px;
         gap: 80px;
