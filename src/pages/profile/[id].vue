@@ -126,10 +126,6 @@ export default {
 .profile {
     &__container {
         position: relative;
-        padding-top: 48px;
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
     }
 
     &__form {
