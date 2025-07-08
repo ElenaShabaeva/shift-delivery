@@ -1,11 +1,14 @@
 import { API_URL } from "@/config/api.config"
 import axios from "axios"
+import store from "."
+import router from "@/router"
 
 export const delivery = {
     namespaced: true,
     state: {
         cities: [],
         packages: [],
+        showModal: false,
     },
     mutations: {
         setCities(state, cities) {
@@ -14,6 +17,9 @@ export const delivery = {
         setPackages(state, packages) {
             state.packages = packages
         },
+        setShowModal(state, showModal){
+            state.showModal = showModal
+        }
     },
     actions: {
         async fetchCities({ commit }) {
@@ -35,9 +41,34 @@ export const delivery = {
         async fetchAll({ dispatch }) {
             await Promise.all([dispatch('fetchCities'), dispatch('fetchPackages')])
         },
+        async calcDelivery({commit}){
+            if (!store.getters['user/isProfileComplete']) {
+                commit('setShowModal', true)
+                document.documentElement.classList.add('pp-overflow')
+            } else {
+                console.log('Профиль заполнен')
+            }
+        },
+        closeModal({commit}){
+            commit('setShowModal', false)
+            document.documentElement.classList.remove('pp-overflow')
+        },
+        inProfileFromModal({commit}){
+            const userIdRaw = localStorage.getItem('user')
+            let userId = null
+            try {
+                userId = userIdRaw ? JSON.parse(userIdRaw) : null
+            } catch {
+                userId = userIdRaw
+            }
+            commit('setShowModal', false)
+            document.documentElement.classList.remove('pp-overflow')
+            router.push(userId ? { name: 'profile', params: { id: userId } } : '/login')
+        }
     },
     getters: {
         cities: (state) => state.cities,
         packages: (state) => state.packages,
+        showModal: (state) => state.showModal,
     },
 }
