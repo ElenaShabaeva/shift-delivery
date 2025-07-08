@@ -7,6 +7,7 @@ export const user = {
     namespaced: true,
     state: {
         user: savedUser ? JSON.parse(savedUser) : null,
+        showModal: false,
     },
     mutations: {
         setUser(state, user) {
@@ -16,6 +17,9 @@ export const user = {
         clearUser(state) {
             state.user = null
             localStorage.removeItem('userInfo')
+        },
+        setShowModal(state, showModal) {
+            state.showModal = showModal
         },
     },
     actions: {
@@ -34,15 +38,15 @@ export const user = {
                     withCredentials: true,
                 })
                 commit('setUser', response.data.user_info)
-                return response.data
+                commit('setShowModal', true)
+                setTimeout(() => {
+                    commit('setShowModal', false)
+                }, 1500)
             } catch (e) {
                 commit('clearUser')
                 console.error('Ошибка обновления данных', e)
                 throw e
             }
-        },
-        updateUser({ commit }, user) {
-            commit('setUser', user)
         },
         clearUser({ commit }) {
             commit('clearUser')
@@ -56,5 +60,6 @@ export const user = {
             const city_id = state.user.city_info?.id
             return Boolean(first_name && last_name && city_id)
         },
+        showModal: (state) => state.showModal,
     },
 }
