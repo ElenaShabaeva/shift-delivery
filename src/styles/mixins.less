@@ -1,9 +1,11 @@
 .container {
     margin: 0 auto;
-    // padding-left: 240px;
-    // padding-right: 240px;
     max-width: 960px;
     width: 100%;
+    padding-top: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
 .is-hidden {
@@ -21,14 +23,14 @@
     pointer-events: none !important;
 }
 
-.pp-overflow{
-    body{
+.pp-overflow {
+    body {
         overflow: hidden;
     }
 }
 
 /*Fonts*/
-.h1{
+.h1 {
     margin: 0;
     font-family: @font1;
     font-weight: 700;
@@ -37,7 +39,7 @@
     color: @text-primary;
 }
 
-.h2{
+.h2 {
     margin: 0;
     font-family: @font1;
     font-weight: 700;
@@ -46,7 +48,7 @@
     color: @text-primary;
 }
 
-.h3{
+.h3 {
     margin: 0;
     font-family: @font1;
     font-weight: 600;
@@ -55,7 +57,7 @@
     color: @text-primary;
 }
 
-.paragraph-16-regular{
+.paragraph-16-regular {
     font-family: @font1;
     font-weight: 400;
     font-size: 16px;
@@ -63,7 +65,7 @@
     color: @text-secondary;
 }
 
-.paragraph-14-regular{
+.paragraph-14-regular {
     font-family: @font1;
     font-weight: 400;
     font-size: 14px;
@@ -71,7 +73,7 @@
     color: @text-secondary;
 }
 
-.paragraph-12-regular{
+.paragraph-12-regular {
     font-family: @font1;
     font-weight: 400;
     font-size: 12px;
@@ -79,14 +81,14 @@
     color: @text-tertiary;
 }
 
-.button-text{
+.button-text {
     font-family: @font1;
     font-weight: 600;
     font-size: 16px;
     line-height: 1.5;
 }
 
-.caption{
+.caption {
     font-family: @font1;
     font-weight: 400;
     font-size: 12px;
@@ -94,7 +96,7 @@
     color: @text-tertiary;
 }
 
-.check-radio{
+.check-radio {
     font-family: @font1;
     font-weight: 500;
     font-size: 16px;
