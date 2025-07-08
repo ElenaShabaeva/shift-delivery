@@ -75,6 +75,7 @@ export default {
         &:hover{
             @media(hover: hover){
                 background-color: @bg-tertiary;
+                border-color: @border-medium;
             }
         }
 
