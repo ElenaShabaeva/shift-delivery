@@ -1,6 +1,7 @@
 import MyButton from "./MyButton.vue";
 import MyCheckbox from "./MyCheckbox.vue";
 import MyInput from "./MyInput.vue";
+import MyModalWindow from "./MyModalWindow.vue";
 import MyRadioButton from "./MyRadioButton.vue";
 import MySelectCity from "./MySelectCity.vue";
 import MySelectPackage from "./MySelectPackage.vue";
@@ -11,5 +12,6 @@ export default[
     MyInput,
     MyRadioButton,
     MySelectCity,
-    MySelectPackage
+    MySelectPackage,
+    MyModalWindow
 ]
