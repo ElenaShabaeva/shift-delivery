@@ -34,13 +34,30 @@
                         /></my-select-package>
                     </label>
                 </div>
-                <my-button :button-color="true" :button-disabled="!isFormValid" class="calc__button">Рассчитать</my-button>
+                <my-button
+                    :button-color="true"
+                    :button-disabled="!isFormValid"
+                    class="calc__button"
+                    @click="calcDelivery"
+                    >Рассчитать</my-button
+                >
             </form>
         </div>
     </div>
-    <!-- <div v-if="showModal" >
-      Заполните все обязательные поля в профиле
-    </div> -->
+    <my-modal-window v-if="showModal">
+        <template #content>
+            <div class="modal">
+                <p class="modal__title paragraph-16-regular">
+                    Чтобы продолжить оформление доставки, заполните
+                    <span class="modal__marker">*</span>обязательные поля в профиле
+                </p>
+                <div class="modal__buttons">
+                    <my-button :button-border="true" @click="closeModal">Закрыть</my-button>
+                    <my-button :button-color="true" @click="toProfile">Перейти в профиль</my-button>
+                </div>
+            </div>
+        </template>
+    </my-modal-window>
 </template>
 
 <script>
@@ -49,27 +66,26 @@ import SvgPack from '@/assets/svg/SvgPack.vue'
 import SvgPin from '@/assets/svg/SvgPin.vue'
 import SvgPlan from '@/assets/svg/SvgPlan.vue'
 import SvgQr from '@/assets/svg/SvgQr.vue'
-import MyButton from '@/components/UI/MyButton.vue'
 
 export default {
-    components: { MyButton, SvgPin, SvgPack, SvgPlan, SvgLogo, SvgQr },
+    components: { SvgPin, SvgPack, SvgPlan, SvgLogo, SvgQr, },
     data() {
         return {
             idSendingCity: '',
             idDestinationCity: '',
             idPackage: '',
-            showModal: false
         }
     },
-    methods:{
-        // send(){
-        //     if (!this.$store.getters['user/isProfileComplete']){
-        //         this.showModal = true
-        //     }
-        //     else {
-        //         console.log("Профиль заполнен");
-        //     }
-        // }
+    methods: {
+        calcDelivery() {
+            return this.$store.dispatch('delivery/calcDelivery')
+        },
+        closeModal() {
+            return this.$store.dispatch('delivery/closeModal')
+        },
+        toProfile() {
+            return this.$store.dispatch('delivery/inProfileFromModal')
+        },
     },
     computed: {
         cities() {
@@ -81,9 +97,9 @@ export default {
         isFormValid() {
             return this.idSendingCity && this.idDestinationCity && this.idPackage
         },
-        // isProfileComplete() {
-            
-        // },
+        showModal() {
+            return this.$store.getters['delivery/showModal']
+        },
     },
     mounted() {
         this.$store.dispatch('delivery/fetchAll')
