@@ -69,10 +69,10 @@
                 @click="updateUserInfo"
                 >Обновить данные</my-button
             >
+            <TransitionGroup name="modal">
+                <div class="profile__modal" v-if="showModal">Данные успешно обновлены!</div>
+            </TransitionGroup>
         </div>
-    </div>
-    <div v-if="showSuccessModal" @close="closeModal">
-      Данные успешно обновлены!
     </div>
 </template>
 
@@ -90,26 +90,11 @@ export default {
                 email: '',
                 city_id: '',
             },
-            showSuccessModal: false,
         }
     },
     methods: {
         updateUserInfo() {
-            this.$store
-                .dispatch('user/updateUserInfo', this.user)
-                .then((data) => {
-                    if (data.status === 'success') {
-                        this.showSuccessModal = true
-                    } else {
-                        console.log('Не удалось обновить данные', data)
-                    }
-                })
-                .catch((e) => {
-                    console.log('Ошибка при  обновлении данных', e)
-                })
-        },
-        closeModal() {
-            this.showSuccessModal = false
+            this.$store.dispatch('user/updateUserInfo', this.user)
         },
         userInfo() {
             const userInfo = this.$store.getters['user/user']
@@ -126,6 +111,9 @@ export default {
         cities() {
             return this.$store.getters['delivery/cities']
         },
+        showModal() {
+            return this.$store.getters['user/showModal']
+        },
     },
     mounted() {
         this.userInfo()
@@ -137,6 +125,7 @@ export default {
 <style lang="less">
 .profile {
     &__container {
+        position: relative;
         padding-top: 48px;
         display: flex;
         flex-direction: column;
@@ -149,6 +138,7 @@ export default {
         gap: 24px;
         padding: 32px;
         background-color: @white;
+        border-radius: 24px;
     }
 
     &__input {
@@ -170,5 +160,26 @@ export default {
         width: 330px;
         margin-top: 16px;
     }
+
+    &__modal {
+        position: absolute;
+        top: 20px;
+        right: -268px;
+        z-index: 10;
+        padding: 10px 20px;
+        color: @white;
+        background-color: @indicator-positive;
+    }
+}
+
+.modal-move,
+.modal-enter-active,
+.modal-leave-active {
+    transition: all 0.4s ease;
+}
+.modal-enter-from,
+.modal-leave-to {
+    opacity: 0;
+    transform: translateY(-50px);
 }
 </style>
