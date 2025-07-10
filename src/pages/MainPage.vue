@@ -78,7 +78,11 @@ export default {
     },
     methods: {
         calcDelivery() {
-            return this.$store.dispatch('delivery/calcDelivery')
+            return this.$store.dispatch('delivery/calcDelivery', {
+                idSendingCity: this.idSendingCity,
+                idDestinationCity: this.idDestinationCity,
+                idPackage: this.idPackage,
+            })
         },
         closeModal() {
             return this.$store.dispatch('delivery/closeModal')
