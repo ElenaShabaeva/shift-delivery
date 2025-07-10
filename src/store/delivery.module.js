@@ -1,7 +1,7 @@
-import { API_URL } from "@/config/api.config"
-import axios from "axios"
-import store from "."
-import router from "@/router"
+import { API_URL } from '@/config/api.config'
+import axios from 'axios'
+import store from '.'
+import router from '@/router'
 
 export const delivery = {
     namespaced: true,
@@ -9,6 +9,37 @@ export const delivery = {
         cities: [],
         packages: [],
         showModal: false,
+        deliveryMethods: [],
+        deliveryInfo: {
+            idPackage: '',
+            idDeliveryType: '',
+            sender: {
+                surname: '',
+                name: '',
+                patronymic: '',
+                phone: '',
+            },
+            recipient: {
+                surname: '',
+                name: '',
+                patronymic: '',
+                phone: '',
+            },
+            sendingСity: {
+                street: '',
+                houseNumber: '',
+                apartmentNumber: '',
+                noteToTheCourier: '',
+            },
+            destinationСity: {
+                street: '',
+                houseNumber: '',
+                apartmentNumber: '',
+                noteToTheCourier: '',
+                toTheDoor: false,
+            },
+            payment: '',
+        },
     },
     mutations: {
         setCities(state, cities) {
@@ -17,9 +48,12 @@ export const delivery = {
         setPackages(state, packages) {
             state.packages = packages
         },
-        setShowModal(state, showModal){
+        setShowModal(state, showModal) {
             state.showModal = showModal
-        }
+        },
+        setDeliveryMethods(state, deliveryMethods) {
+            state.deliveryMethods = deliveryMethods
+        },
     },
     actions: {
         async fetchCities({ commit }) {
@@ -34,26 +68,35 @@ export const delivery = {
             try {
                 const response = await axios.get(`${API_URL}/package/all-packages`)
                 commit('setPackages', response.data.packages)
-            } catch(e) {
+            } catch (e) {
                 console.log('Ошибка получения списка упаковок ', e)
             }
         },
         async fetchAll({ dispatch }) {
             await Promise.all([dispatch('fetchCities'), dispatch('fetchPackages')])
         },
-        async calcDelivery({commit}){
+        async calcDelivery({ commit }, { idSendingCity, idDestinationCity, idPackage }) {
             if (!store.getters['user/isProfileComplete']) {
                 commit('setShowModal', true)
                 document.documentElement.classList.add('pp-overflow')
             } else {
-                console.log('Профиль заполнен')
+                const response = await axios.get(`${API_URL}/delivery/get-delivery-types`, {
+                    params: {
+                        from_city_id: idSendingCity,
+                        to_city_id: idDestinationCity,
+                    },
+                })
+                commit('setDeliveryMethods', response.data.delivery_types)
+                
+                router.push('/delivery/step/1')
+                localStorage.setItem('idPackage', idPackage)
             }
         },
-        closeModal({commit}){
+        closeModal({ commit }) {
             commit('setShowModal', false)
             document.documentElement.classList.remove('pp-overflow')
         },
-        inProfileFromModal({commit}){
+        inProfileFromModal({ commit }) {
             const userIdRaw = localStorage.getItem('user')
             let userId = null
             try {
@@ -64,11 +107,16 @@ export const delivery = {
             commit('setShowModal', false)
             document.documentElement.classList.remove('pp-overflow')
             router.push(userId ? { name: 'profile', params: { id: userId } } : '/login')
-        }
+        },
+        chooseDeliveryType({ commit }, idDeliveryType) {
+            router.push('/delivery/step/2')
+            localStorage.setItem('idDeliveryType', idDeliveryType)
+        },
     },
     getters: {
         cities: (state) => state.cities,
         packages: (state) => state.packages,
         showModal: (state) => state.showModal,
+        deliveryMethods: (state) => state.deliveryMethods,
     },
 }
