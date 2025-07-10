@@ -92,7 +92,6 @@ export default {
 
 <style lang="less" scoped>
 .select {
-    // max-width: 320px;
     width: 100%;
     display: flex;
     flex-direction: column;

@@ -80,15 +80,12 @@ export default {
             this.selectedOption = selected ? selected.name : ''
         },
         options() {
-            // если список опций обновился, обновляем selectedOption
             const selected = this.options.find((opt) => opt.id === this.modelValue)
             this.selectedOption = selected ? selected.name : ''
         },
     },
     mounted() {
-        // this.select = this.$refs.select
-        // this.closeSelect()
-        const selected = this.options.find(opt => opt.id === this.modelValue)
+        const selected = this.options.find((opt) => opt.id === this.modelValue)
         this.selectedOption = selected ? selected.name : ''
     },
     beforeUnmount() {
@@ -99,7 +96,6 @@ export default {
 
 <style lang="less" scoped>
 .select {
-    // max-width: 320px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -156,9 +152,6 @@ export default {
         right: 0;
         top: calc(100% + 8px);
         z-index: 10;
-        // display: flex;
-        // flex-direction: column;
-        // gap: 4px;
         padding: 8px;
         background-color: @white;
         border: 1px solid @border-light;
