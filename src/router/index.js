@@ -28,6 +28,12 @@ const router = createRouter({
             component: () => import('@/pages/profile/[id].vue'),
             meta: { requiresAuth: true },
         },
+        {
+            path: '/delivery/step/:stepNumber',
+            name: 'delivery',
+            component: () => import('@/pages/DeliveryPage.vue'),
+            props: (route) => ({ currentStep: Number(route.params.stepNumber) }),
+        },
     ],
 })
 
