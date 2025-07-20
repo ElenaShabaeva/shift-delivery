@@ -1,6 +1,6 @@
 <template>
     <label class="radio" :class="radioDisabled ? 'radio--disabled' : ''">
-        <input type="radio" class="radio__input" />
+        <input type="radio" class="radio__input" @change="onChange" :value="value" :checked="modelValue === value"/>
         <span class="radio__mark"></span>
     </label>
 </template>
@@ -9,11 +9,21 @@
 export default {
     name: 'my-radio',
     props: {
+        modelValue: [String, Number, Boolean],
+        value: {
+            type: [String, Number, Boolean],
+            required: true,
+        },
         radioDisabled: {
             type: Boolean,
             default: false,
-        }
-    }
+        },
+    },
+    methods: {
+        onChange(event) {
+            this.$emit('update:modelValue', event.target.value)
+        },
+    },
 }
 </script>
 
@@ -56,8 +66,8 @@ export default {
 
     &--disabled {
         pointer-events: none;
-        
-        .check__mark{
+
+        .check__mark {
             border-color: @border-disabled;
         }
     }
