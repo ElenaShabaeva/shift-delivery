@@ -1,79 +1,94 @@
-import { API_URL } from '@/config/api.config'
-import axios from 'axios'
-import store from '.'
-import router from '@/router'
+import router from "@/router"
+
+const savedDeliveryInfo = sessionStorage.getItem('deliveryInfo')
+const savedDeliveryMethods = sessionStorage.getItem('deliveryMethods')
 
 export const delivery = {
     namespaced: true,
     state: {
-        cities: [],
-        packages: [],
         showModal: false,
-        deliveryMethods: [],
-        deliveryInfo: {
-            idPackage: '',
-            idDeliveryType: '',
-            sender: {
-                surname: '',
-                name: '',
-                patronymic: '',
-                phone: '',
-            },
-            recipient: {
-                surname: '',
-                name: '',
-                patronymic: '',
-                phone: '',
-            },
-            sendingСity: {
-                street: '',
-                houseNumber: '',
-                apartmentNumber: '',
-                noteToTheCourier: '',
-            },
-            destinationСity: {
-                street: '',
-                houseNumber: '',
-                apartmentNumber: '',
-                noteToTheCourier: '',
-                toTheDoor: false,
-            },
-            payment: '',
-        },
+        deliveryMethods: savedDeliveryMethods ? JSON.parse(savedDeliveryMethods) : null,
+        deliveryInfo: savedDeliveryInfo
+            ? JSON.parse(savedDeliveryInfo)
+            : {
+                  idPackage: '',
+                  idDeliveryType: '',
+                  sender: {
+                      surname: '',
+                      name: '',
+                      patronymic: '',
+                      phone: '',
+                  },
+                  recipient: {
+                      surname: '',
+                      name: '',
+                      patronymic: '',
+                      phone: '',
+                  },
+                  sendingCity: {
+                      street: '',
+                      houseNumber: '',
+                      apartmentNumber: '',
+                      noteToTheCourier: '',
+                  },
+                  destinationCity: {
+                      street: '',
+                      houseNumber: '',
+                      apartmentNumber: '',
+                      noteToTheCourier: '',
+                      toTheDoor: false,
+                  },
+                  payer: '',
+              },
     },
     mutations: {
-        setCities(state, cities) {
-            state.cities = cities
-        },
-        setPackages(state, packages) {
-            state.packages = packages
-        },
         setShowModal(state, showModal) {
             state.showModal = showModal
+            if (showModal){
+                document.documentElement.classList.add('pp-overflow')
+            }
+            else {
+                document.documentElement.classList.remove('pp-overflow')
+            }
         },
         setDeliveryMethods(state, deliveryMethods) {
             state.deliveryMethods = deliveryMethods
+            sessionStorage.setItem('deliveryMethods', JSON.stringify(deliveryMethods))
+        },
+        updateDeliveryType(state, idDeliveryTypeDate){
+            state.deliveryInfo.idDeliveryType = idDeliveryTypeDate
+            sessionStorage.setItem('deliveryInfo', JSON.stringify(state.deliveryInfo))
+        },
+        updateSender(state, senderData) {
+            state.deliveryInfo.sender = { ...state.deliveryInfo.sender, ...senderData }
+            sessionStorage.setItem('deliveryInfo', JSON.stringify(state.deliveryInfo))
+        },
+        updateRecipient(state, recipientData) {
+            state.deliveryInfo.recipient = { ...state.deliveryInfo.recipient, ...recipientData }
+            sessionStorage.setItem('deliveryInfo', JSON.stringify(state.deliveryInfo))
+        },
+        updateSendingCity(state, sendingCityData) {
+            state.deliveryInfo.sendingCity = {
+                ...state.deliveryInfo.sendingCity,
+                ...sendingCityData,
+            }
+            sessionStorage.setItem('deliveryInfo', JSON.stringify(state.deliveryInfo))
+        },
+        updateDestinationCity(state, destinationCityData) {
+            state.deliveryInfo.destinationCity = {
+                ...state.deliveryInfo.destinationCity,
+                ...destinationCityData,
+            }
+            sessionStorage.setItem('deliveryInfo', JSON.stringify(state.deliveryInfo))
+        },
+        updatePayer(state, payerData) {
+            state.deliveryInfo.payer = payerData
+            sessionStorage.setItem('deliveryInfo', JSON.stringify(state.deliveryInfo))
         },
     },
     actions: {
-        async fetchCities({ commit }) {
-            try {
-                const response = await axios.get(`${API_URL}/city/get-all-cities`)
-                commit('setCities', response.data.cities)
-            } catch {
-                console.log('Ошибка получения списка городов')
-            }
-        },
-        async fetchPackages({ commit }) {
-            try {
-                const response = await axios.get(`${API_URL}/package/all-packages`)
-                commit('setPackages', response.data.packages)
-            } catch (e) {
-                console.log('Ошибка получения списка упаковок ', e)
-            }
-        },
-        async fetchAll({ dispatch }) {
-            await Promise.all([dispatch('fetchCities'), dispatch('fetchPackages')])
+        showModal({commit}, showModal){
+            commit('setShowModal', showModal)
         },
         async calcDelivery({ commit }, { idSendingCity, idDestinationCity, idPackage }) {
             if (!store.getters['user/isProfileComplete']) {
@@ -92,31 +107,29 @@ export const delivery = {
                 localStorage.setItem('idPackage', idPackage)
             }
         },
-        closeModal({ commit }) {
-            commit('setShowModal', false)
-            document.documentElement.classList.remove('pp-overflow')
-        },
-        inProfileFromModal({ commit }) {
-            const userIdRaw = localStorage.getItem('user')
-            let userId = null
-            try {
-                userId = userIdRaw ? JSON.parse(userIdRaw) : null
-            } catch {
-                userId = userIdRaw
-            }
-            commit('setShowModal', false)
-            document.documentElement.classList.remove('pp-overflow')
-            router.push(userId ? { name: 'profile', params: { id: userId } } : '/login')
-        },
-        chooseDeliveryType({ commit }, idDeliveryType) {
+        updateDeliveryType({commit}, idDeliveryTypeDate){
+            commit('updateDeliveryType', idDeliveryTypeDate)
             router.push('/delivery/step/2')
-            localStorage.setItem('idDeliveryType', idDeliveryType)
+        },
+        updateSender({ commit }, senderData) {
+            commit('updateSender', senderData)
+        },
+        updateRecipient({ commit }, recipientData) {
+            commit('updateRecipient', recipientData)
+        },
+        updateSendingCity({ commit }, sendingCityData) {
+            commit('updateSendingCity', sendingCityData)
+        },
+        updateDestinationCity({ commit }, destinationCityData) {
+            commit('updateDestinationCity', destinationCityData)
+        },
+        updatePayer({ commit }, payerData) {
+            commit('updatePayer', payerData)
         },
     },
     getters: {
-        cities: (state) => state.cities,
-        packages: (state) => state.packages,
         showModal: (state) => state.showModal,
         deliveryMethods: (state) => state.deliveryMethods,
+        deliveryInfo: (state) => state.deliveryInfo,
     },
 }
