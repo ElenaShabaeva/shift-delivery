@@ -1,6 +1,6 @@
 <template>
     <label class="check" :class="checkDisabled ? 'check--disabled' : ''">
-        <input type="checkbox" class="check__input" />
+        <input type="checkbox" class="check__input" :checked="modelValue" @change="onChange"/>
         <span class="check__mark"></span>
     </label>
 </template>
@@ -12,8 +12,17 @@ export default {
         checkDisabled: {
             type: Boolean,
             default: false,
-        }
-    }
+        },
+        modelValue: {
+            type: Boolean,
+            default: false,
+        },
+    },
+    methods: {
+        onChange(event) {
+            this.$emit('update:modelValue', event.target.checked)
+        },
+    },
 }
 </script>
 
@@ -56,8 +65,8 @@ export default {
 
     &--disabled {
         pointer-events: none;
-        
-        .check__mark{
+
+        .check__mark {
             border-color: @border-disabled;
         }
     }
