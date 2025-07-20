@@ -78,35 +78,35 @@ export default {
     },
     methods: {
         calcDelivery() {
-            return this.$store.dispatch('delivery/calcDelivery', {
+            return this.$store.dispatch('main/calcDelivery', {
                 idSendingCity: this.idSendingCity,
                 idDestinationCity: this.idDestinationCity,
                 idPackage: this.idPackage,
             })
         },
         closeModal() {
-            return this.$store.dispatch('delivery/closeModal')
+            return this.$store.dispatch('main/closeModal')
         },
         toProfile() {
-            return this.$store.dispatch('delivery/inProfileFromModal')
+            return this.$store.dispatch('main/inProfileFromModal')
         },
     },
     computed: {
         cities() {
-            return this.$store.getters['delivery/cities']
+            return this.$store.getters['main/cities']
         },
         packages() {
-            return this.$store.getters['delivery/packages']
+            return this.$store.getters['main/packages']
         },
         isFormValid() {
             return this.idSendingCity && this.idDestinationCity && this.idPackage
         },
         showModal() {
-            return this.$store.getters['delivery/showModal']
+            return this.$store.getters['main/showModal']
         },
     },
     mounted() {
-        this.$store.dispatch('delivery/fetchAll')
+        this.$store.dispatch('main/fetchAll')
     },
 }
 </script>
