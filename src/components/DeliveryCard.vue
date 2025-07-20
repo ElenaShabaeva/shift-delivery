@@ -21,7 +21,7 @@ export default {
     },
     methods: {
         chooseDeliveryType(idDeliveryType){
-            return this.$store.dispatch('delivery/chooseDeliveryType', idDeliveryType)
+            return this.$store.dispatch('delivery/updateDeliveryType', idDeliveryType)
         }
     }
 }
