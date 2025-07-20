@@ -27,7 +27,7 @@ export default {
     },
     methods: {
         getDeliveryMethods(){
-            const deliveriesInfo = this.$store.getters['delivery/deliveryMethods']
+            const deliveriesInfo = this.$store.getters['main/deliveryMethods']
             if (deliveriesInfo){
                 this.deliveryMethods = cloneDeep(deliveriesInfo)
             }
