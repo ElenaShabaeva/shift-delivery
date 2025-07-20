@@ -32,8 +32,8 @@ export default {
     box-shadow: none;
     outline: none;
     color: @text-primary;
-    max-width: 464px;
-    width: 100%;
+    // max-width: 464px;
+    // width: 100%;
     padding: 8px 8px 8px 12px;
     border: 1px solid @border-light;
     background-color: transparent;
