@@ -109,7 +109,7 @@ export default {
             return this.user.last_name && this.user.first_name && this.user.city_id
         },
         cities() {
-            return this.$store.getters['delivery/cities']
+            return this.$store.getters['main/cities']
         },
         showModal() {
             return this.$store.getters['user/showModal']
@@ -117,7 +117,7 @@ export default {
     },
     mounted() {
         this.userInfo()
-        this.$store.dispatch('delivery/fetchAll')
+        this.$store.dispatch('main/fetchAll')
     },
 }
 </script>

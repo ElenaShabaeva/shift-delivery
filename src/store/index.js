@@ -1,12 +1,14 @@
 import { createStore } from "vuex"
 import { auth } from "./auth.module"
-import { delivery } from "./delivery.module"
+import { main } from "./main.module"
 import { user } from "./user.module"
+import { delivery } from "./delivery.module"
 
 export default createStore({
     modules: {
         auth: auth,
-        delivery: delivery,
+        main: main,
         user: user,
+        delivery: delivery
     }
 })

@@ -12,9 +12,11 @@ components.forEach(component => {
     app.component(component.name, component)
 })
 
-store
-    .dispatch('auth/refreshToken')
-    .catch(() => store.dispatch('auth/logout'))
-    .finally(() => {
-        app.use(store).use(router).mount('#app')
-    })
+app.use(store).use(router).mount('#app')
+
+// store
+//     .dispatch('auth/refreshToken')
+//     .catch(() => store.dispatch('auth/logout'))
+//     .finally(() => {
+//         app.use(store).use(router).mount('#app')
+//     })
