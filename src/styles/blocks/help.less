@@ -1,0 +1,53 @@
+.help {
+    position: relative;
+    display: flex;
+
+    &__icon {
+        cursor: pointer;
+
+        &:hover + .help__dropdown {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    &__dropdown {
+        position: absolute;
+        right: -15px;
+        bottom: calc(100% + 10px);
+        visibility: hidden;
+        opacity: 0;
+        transition:
+            opacity 0.3s,
+            visibility 0.3s;
+        background-color: @white;
+        padding: 8px;
+        border-radius: 8px;
+        width: 240px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        pointer-events: none;
+
+        .paragraph-12-regular-dark{
+            font-weight: 500;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            right: 19px;
+            top: 100%;
+            border-width: 8px;
+            border-style: solid;
+            border-color: @white transparent transparent transparent;
+            display: block;
+            width: 0;
+            height: 0;
+        }
+    }
+
+    &__icon:hover + &__dropdown {
+        pointer-events: auto;
+    }
+}
