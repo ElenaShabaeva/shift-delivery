@@ -9,9 +9,7 @@
                 </div>
             </div>
 
-            <component :is="getStepComponent(currentStep)" @update-title="title = $event" />
-            <!-- <button v-if="currentStep > 1" @click="goToStep(currentStep - 1)">Назад</button>
-            <button v-if="currentStep < 7" @click="goToStep(currentStep + 1)">Далее</button> -->
+            <component :is="getStepComponent(currentStep)" @update-title="title = $event" @prev="goToStep(currentStep - 1)" @next="goToStep(currentStep + 1)"/>
         </div>
     </div>
 </template>
@@ -19,6 +17,11 @@
 <script>
 import Step1 from '@/components/makingDelivery/Step1.vue'
 import Step2 from '@/components/makingDelivery/Step2.vue'
+import Step3 from '@/components/makingDelivery/Step3.vue'
+import Step4 from '@/components/makingDelivery/Step4.vue'
+import Step5 from '@/components/makingDelivery/Step5.vue'
+import Step6 from '@/components/makingDelivery/Step6.vue'
+import Step7 from '@/components/makingDelivery/Step7.vue'
 export default {
     props: {
         currentStep: { type: Number, required: true },
@@ -39,11 +42,11 @@ export default {
             const steps = {
                 1: Step1,
                 2: Step2,
-                // 3: Step3,
-                // 4: Step4,
-                // 5: Step5,
-                // 6: Step6,
-                // 7: Step7,
+                3: Step3,
+                4: Step4,
+                5: Step5,
+                6: Step6,
+                7: Step7,
             }
             return steps[step] || Step1
         },
@@ -58,4 +61,5 @@ export default {
 </script>
 
 <style lang="less">
+
 </style>
