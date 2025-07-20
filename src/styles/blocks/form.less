@@ -1,4 +1,7 @@
 .form{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 
     &__list{
         display: flex;
@@ -18,5 +21,15 @@
         }
     }
 
+    &__check{
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
 
+    &__btns{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
 }
