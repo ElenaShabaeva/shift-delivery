@@ -1,29 +1,23 @@
-# .
+# shift-delivery
 
-This template should help get you started developing with Vue 3 in Vite.
+Данныый проект был реализован в рамках ШИФТ-интенсива от компании ЦФТ и представляет собой сайт для оформления доставок с возможностью выбора пунктов отправления и назначения, типа посылки, а также пошаговым оформлением заказа.
 
-## Recommended IDE Setup
+### О проекте
+Проект представляет собой web-приложение, в котором пользователь может:
+- зарегистрироваться / авторизоваться 
+- выбирать откуда и куда доставлять
+- выбирать тип посылки
+- проходить 7 этапов оформления заказа
+- использовать личный кабинет для управления заказами и редактирование данных
+- просматривать историю заказов с детальной информацией
+- отменять доставку при необходимости
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+### Стек технологий
+- vue
+- vue-router - маршрутизация
+- vuex - управление состоянием
+- axios - запросы на сервер
+- less - препроцессор стилей
+- lodash - работа с данными
+- JavaScript (ES6+)
+- vite - сборщик проекта
