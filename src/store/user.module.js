@@ -8,6 +8,7 @@ export const user = {
     state: {
         user: savedUser ? JSON.parse(savedUser) : null,
         showModal: false,
+        isLoading: false,
     },
     mutations: {
         setUser(state, user) {
@@ -21,19 +22,29 @@ export const user = {
         setShowModal(state, showModal) {
             state.showModal = showModal
         },
+        setIsLoading(state, isLoading) {
+            state.isLoading = isLoading
+        },
     },
     actions: {
         async fetchUser({ commit }) {
             try {
+                commit('setIsLoading', true)
+                document.documentElement.classList.add('pp-overflow')
                 const response = await api.get(`${API_URL}/user/info`)
                 commit('setUser', response.data.user_info)
             } catch (e) {
                 commit('clearUser')
                 console.error('Ошибка загрузки пользователя', e)
+            } finally {
+                commit('setIsLoading', false)
+                document.documentElement.classList.remove('pp-overflow')
             }
         },
         async updateUserInfo({ commit }, userData) {
             try {
+                commit('setIsLoading', true)
+                document.documentElement.classList.add('pp-overflow')
                 const response = await api.patch(`${API_URL}/user/update-info`, userData, {
                     withCredentials: true,
                 })
@@ -46,6 +57,9 @@ export const user = {
                 commit('clearUser')
                 console.error('Ошибка обновления данных', e)
                 throw e
+            } finally {
+                commit('setIsLoading', false)
+                document.documentElement.classList.remove('pp-overflow')
             }
         },
         clearUser({ commit }) {
@@ -61,5 +75,6 @@ export const user = {
             return Boolean(first_name && last_name && city_id)
         },
         showModal: (state) => state.showModal,
+        isLoading: (state) => state.isLoading,
     },
 }

@@ -44,6 +44,7 @@
             </form>
         </div>
     </div>
+    <my-loading :title="loadingTitle" v-if="!showModal && isLoading" />
     <my-modal-window v-if="showModal">
         <template #content>
             <div class="modal">
@@ -74,11 +75,12 @@ export default {
             idSendingCity: '',
             idDestinationCity: '',
             idPackage: '',
+            loadingTitle: 'Идет расчет доставки',
         }
     },
     methods: {
-        calcDelivery() {
-            return this.$store.dispatch('main/calcDelivery', {
+        async calcDelivery() {
+            await this.$store.dispatch('main/calcDelivery', {
                 idSendingCity: this.idSendingCity,
                 idDestinationCity: this.idDestinationCity,
                 idPackage: this.idPackage,
@@ -104,6 +106,9 @@ export default {
         showModal() {
             return this.$store.getters['main/showModal']
         },
+        isLoading(){
+            return this.$store.getters['main/isLoading']
+        }
     },
     mounted() {
         this.$store.dispatch('main/fetchAll')

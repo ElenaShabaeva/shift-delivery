@@ -74,6 +74,7 @@
             </TransitionGroup>
         </div>
     </div>
+    <my-loading :title="loadingTitle" v-if="isLoading" />
 </template>
 
 <script>
@@ -90,6 +91,7 @@ export default {
                 email: '',
                 city_id: '',
             },
+            loadingTitle: 'Идет обновление данных',
         }
     },
     methods: {
@@ -114,6 +116,9 @@ export default {
         showModal() {
             return this.$store.getters['user/showModal']
         },
+        isLoading(){
+            return this.$store.getters['user/isLoading']
+        }
     },
     mounted() {
         this.userInfo()

@@ -1,0 +1,51 @@
+.table {
+    display: grid;
+    grid-template-columns: 150px 430px 220px auto;
+    border-collapse: collapse;
+    width: 100%;
+
+    thead,
+    tbody,
+    tr {
+        display: contents;
+    }
+
+    &__thead {
+        text-align: left;
+        .paragraph-14-regular {
+            color: @text-tertiary;
+        }
+    }
+
+    &__thead-th,
+    &__tbody-td {
+        border-bottom: 1px solid @border-extralight;
+    }
+
+    &__thead-th {
+        padding-bottom: 24px;
+        padding-right: 24px;
+    }
+
+    &__tbody {
+        .paragraph-12-regular-light {
+            color: @text-quartenery;
+            text-decoration: underline;
+        }
+    }
+
+    &__tbody-td {
+        padding-block: 24px;
+        padding-right: 24px;
+        color: @text-primary;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &--status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+    }
+}

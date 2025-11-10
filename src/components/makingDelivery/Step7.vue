@@ -89,7 +89,9 @@
         </div>
         <div class="validate__btns">
             <my-button type="button" :button-border="true" @click="prev">Назад</my-button>
-            <my-button type="button" :button-color="true">Отправить</my-button>
+            <my-button type="button" :button-color="true" @click="sendDeliveryInfo"
+                >Отправить</my-button
+            >
         </div>
     </div>
     <edit-user-info
@@ -113,6 +115,7 @@
         :section="'Куда доставить'"
         :data="editingData"
     />
+    <my-loading :title="loadingTitle" v-if="isLoading" />
 </template>
 
 <script>
@@ -128,6 +131,7 @@ export default {
     },
     data() {
         return {
+            loadingTitle: 'Идет отправка заказа',
             editingSection: null,
             editingData: null,
             deliveryMethods: [],
@@ -153,6 +157,9 @@ export default {
 
             document.documentElement.classList.add('pp-overflow')
             this.$store.dispatch('delivery/showModal', true)
+        },
+        async sendDeliveryInfo() {
+            this.$store.dispatch('delivery/sendDeliveryInfo')
         },
     },
     created() {

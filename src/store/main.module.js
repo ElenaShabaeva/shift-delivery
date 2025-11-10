@@ -11,6 +11,7 @@ export const main = {
         cities: [],
         packages: [],
         showModal: false,
+        isLoading: false,
         deliveryMethods: savedDeliveryMethods ? JSON.parse(savedDeliveryMethods) : null,
     },
     mutations: {
@@ -22,6 +23,9 @@ export const main = {
         },
         setShowModal(state, showModal) {
             state.showModal = showModal
+        },
+        setIsLoading(state, isLoading){
+            state.isLoading = isLoading
         },
         setDeliveryMethods(state, deliveryMethods) {
             state.deliveryMethods = deliveryMethods
@@ -53,15 +57,30 @@ export const main = {
                 commit('setShowModal', true)
                 document.documentElement.classList.add('pp-overflow')
             } else {
-                const response = await axios.get(`${API_URL}/delivery/get-delivery-types`, {
-                    params: {
-                        from_city_id: idSendingCity,
-                        to_city_id: idDestinationCity,
-                    },
-                })
-                commit('setDeliveryMethods', response.data.delivery_types)
-                router.push('/delivery/step/1')
-                sessionStorage.setItem('idPackage', idPackage)
+                try{
+                    commit('setIsLoading', true)
+                    document.documentElement.classList.add('pp-overflow')
+                    const response = await axios.get(`${API_URL}/delivery/get-delivery-types`, {
+                        params: {
+                            from_city_id: idSendingCity,
+                            to_city_id: idDestinationCity,
+                        },
+                    })
+                    sessionStorage.setItem('idSendingCity', idSendingCity)
+                    sessionStorage.setItem('idDestinationCity', idDestinationCity)
+                    sessionStorage.setItem('idPackage', idPackage)
+                    commit('setDeliveryMethods', response.data.delivery_types)
+                    
+                }
+                catch(e) {
+                    console.log("Ошибка при расчете доставки", e)
+                    // commit('setIsLoading', false)
+                }
+                finally {
+                    commit('setIsLoading', false)
+                    document.documentElement.classList.remove('pp-overflow')
+                    router.push('/delivery/step/1')
+                }
             }
         },
         closeModal({ commit }) {
@@ -89,6 +108,7 @@ export const main = {
         cities: (state) => state.cities,
         packages: (state) => state.packages,
         showModal: (state) => state.showModal,
+        isLoading: (state) => state.isLoading,
         deliveryMethods: (state) => state.deliveryMethods
     },
 }

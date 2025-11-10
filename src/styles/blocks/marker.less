@@ -1,0 +1,19 @@
+.marker {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+
+    &--created {
+        background-color: @indicator-attention;
+    }
+    &--delivered {
+        background-color: @indicator-positive;
+    }
+    &--delited {
+        background-color: @indicator-error;
+    }
+    &--default{
+        background-color: @indicator-medium;
+    }
+}

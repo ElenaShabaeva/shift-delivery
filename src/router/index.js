@@ -23,6 +23,18 @@ const router = createRouter({
             // meta: { requiresAuth: true },
         },
         {
+            path: '/history',
+            name: 'history',
+            component: () => import('@/pages/HistoryPage.vue'),
+            // meta: { requiresAuth: true },
+        },
+        {
+            path: '/detail/:id',
+            name: 'detail',
+            component: () => import('@/pages/detail/[id].vue'),
+            // meta: { requiresAuth: true },
+        },
+        {
             path: '/profile/:id',
             name: 'profile',
             component: () => import('@/pages/profile/[id].vue'),
@@ -33,7 +45,14 @@ const router = createRouter({
             name: 'delivery',
             component: () => import('@/pages/DeliveryPage.vue'),
             props: (route) => ({ currentStep: Number(route.params.stepNumber) }),
+            // meta: { requiresAuth: true },
         },
+        {
+            path: '/delivery/success',
+            name: 'success',
+            component: () => import('@/pages/DeliverySuccessPage.vue'),
+            // meta: { requiresAuth: true },
+        }
     ],
 })
 

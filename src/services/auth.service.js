@@ -21,6 +21,7 @@ class AuthService {
             localStorage.removeItem('token')
             localStorage.removeItem('user')
             localStorage.removeItem('userInfo')
+            sessionStorage.clear()
         } catch (e) {
             console.error('Ошибка logout', e)
         }
@@ -28,8 +29,6 @@ class AuthService {
 
     async register(user) {
         const response = await api.post(`${API_URL}/registration`, user, { withCredentials: true })
-        console.log(response)
-
         if (response.data.status === 'success') {
             localStorage.setItem('user', JSON.stringify(response.data.user_id))
             localStorage.setItem('token', response.data.token_info.token)

@@ -47,8 +47,7 @@ export default {
                         to: userId ? { name: 'profile', params: { id: userId } } : '/login',
                         icon: markRaw(SvgUser),
                     },
-                    // Пример другой ссылки, если нужно
-                    // { title: 'История', to: '/', icon: SvgHistory },
+                    { title: 'История', to: '/history', icon: markRaw(SvgHistory) },
                 ]
             } else {
                 this.navLinks = []

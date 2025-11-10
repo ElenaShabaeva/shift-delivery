@@ -48,6 +48,7 @@ export default {
     transition: all 0.3s;
     overflow: hidden;
     cursor: pointer;
+    width: 100%;
 
     &__color{
         background-color: @bg-brand;
